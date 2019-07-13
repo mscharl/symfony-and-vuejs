@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const entries = {
     web: ['./assets/scss/main.scss'],
@@ -23,6 +24,14 @@ module.exports = (env, argv) => {
             new MiniCssExtractPlugin({
                 filename: '[name].[chunkhash].css',
             }),
+            new CopyWebpackPlugin([
+                {
+                    from: 'assets/images/**/*',
+                    to: 'images/[name].[hash].[ext]',
+                    toType: 'template',
+                },
+            ]),
+
         ],
         module: {
             rules: [
