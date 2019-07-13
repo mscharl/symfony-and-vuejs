@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const entries = {
-    web: ['./assets/scss/main.scss'],
+    web: ['./assets/scss/main.scss', './assets/typescript/main.ts'],
 };
 
 module.exports = (env, argv) => {
@@ -72,7 +72,15 @@ module.exports = (env, argv) => {
                         },
                     ],
                 },
+                {
+                    test: /\.ts?$/,
+                    exclude: /node_modules/,
+                    loader: 'ts-loader',
+                },
             ],
+        },
+        resolve: {
+            extensions: ['.ts', '.js', '.json'],
         },
     }
 };
