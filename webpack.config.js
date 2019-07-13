@@ -50,7 +50,19 @@ module.exports = (env, argv) => {
                         },
                     ],
                 },
-
+                {
+                    test: /\.(jpg|gif|png|svg)$/,
+                    use: [
+                        {
+                            loader: 'file-loader',
+                            options: {
+                                emitFile: true,
+                                outputPath: 'images',
+                                name: '[name].[hash].[ext]',
+                            },
+                        },
+                    ],
+                },
             ],
         },
     }
