@@ -1,0 +1,22 @@
+:root {
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    @extend :root;
+
+    color: #333;
+    font-family: sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    width: 100vw;
+    height: 62.5vh;
+}
