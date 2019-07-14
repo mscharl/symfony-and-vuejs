@@ -1,36 +1,35 @@
-const { resolve } = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-const entries = {
-    web: ['./assets/scss/main.scss', './assets/typescript/main.ts'],
-};
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { resolve } = require('path');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 module.exports = (env, argv) => {
-    process.env.BABEL_ENV = argv.mode;
-
     const isProduction = argv.mode === 'production';
-    const useTypecheck = argv.typecheck !== false;
-    const useSourcemap = argv.sourcemap !== false && !isProduction;
 
     return {
-        entry: entries,
+        entry: ['./assets/scss/main.scss', './assets/typescript/main.ts'],
         output: {
-            path: resolve('public', 'assets'),
-            filename: '[name].[chunkhash].js',
+            path: resolve('public'),
+            filename: 'assets/[name].[chunkhash].js',
         },
-        devtool: useSourcemap ? 'source-map' : false,
+        devtool: isProduction ? false : 'source-map',
+        mode: isProduction ? 'production' : argv.mode,
         plugins: [
             new MiniCssExtractPlugin({
-                filename: '[name].[chunkhash].css',
+                filename: 'assets/[name].[chunkhash].css',
             }),
             new CopyWebpackPlugin([
                 {
                     from: 'assets/images/**/*',
-                    to: 'images/[name].[hash].[ext]',
+                    to: '[path][name].[hash].[ext]',
                     toType: 'template',
                 },
             ]),
+            new VueLoaderPlugin(),
+            new ManifestPlugin({
+                fileName: 'assets/manifest.json',
+            }),
 
         ],
         module: {
@@ -40,7 +39,7 @@ module.exports = (env, argv) => {
                     use: [
                         MiniCssExtractPlugin.loader,
                         {
-                            loader: 'css-loader?sourcemap=true',
+                            loader: 'css-loader',
                             options: {
                                 sourceMap: true,
                             },
@@ -65,22 +64,31 @@ module.exports = (env, argv) => {
                         {
                             loader: 'file-loader',
                             options: {
-                                emitFile: true,
-                                outputPath: 'images',
-                                name: '[name].[hash].[ext]',
+                                emitFile: false,
+                                context: 'assets',
+                                name: '[path][name].[hash].[ext]',
                             },
                         },
                     ],
                 },
                 {
                     test: /\.ts?$/,
-                    exclude: /node_modules/,
                     loader: 'ts-loader',
+                    options: {
+                        appendTsSuffixTo: [/\.vue$/],
+                    },
+                },
+                {
+                    test: /\.vue?$/,
+                    loader: 'vue-loader',
                 },
             ],
         },
         resolve: {
-            extensions: ['.ts', '.js', '.json'],
+            extensions: ['.vue', '.ts', '.js', '.json'],
+            alias: {
+                'vue$': 'vue/dist/vue.esm.js',
+            },
         },
     }
 };

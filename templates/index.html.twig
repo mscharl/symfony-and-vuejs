@@ -8,9 +8,15 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Symfony & Vue.js - Stack of the Future</title>
 
-        <link rel="stylesheet" href="{{ preload(asset('assets/web.a48027c71a95bf2cd944.css')) }}">
+        <link rel="stylesheet" href="{{ preload(asset('main.css')) }}">
     </head>
     <body>
         <h1>Symfony & Vue.js - Stack of the Future</h1>
+
+        <main id="app">
+            <switch-button label="Turn on the Future" />
+        </main>
+
+        <script src="{{ preload(asset('main.js')) }}"></script>
     </body>
 </html>
