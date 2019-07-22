@@ -6,17 +6,34 @@
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
         >
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Symfony & Vue.js - Stack of the Future</title>
+        <title>{{ 'frontend.welcome'|trans }}</title>
 
-        <link rel="stylesheet" href="{{ preload(asset('main.css')) }}">
+        <link rel="stylesheet" href="{{ preload(asset('main.css'), {as: 'style'}) }}">
     </head>
     <body>
-        <h1>Symfony & Vue.js - Stack of the Future</h1>
+        <h1>{{ 'frontend.welcome'|trans }}</h1>
 
         <main id="app">
-            <switch-button label="Turn on the Future" />
+            <switch-button label="{{ 'frontend.button'|trans }}"></switch-button>
+            <global-config></global-config>
         </main>
 
-        <script src="{{ preload(asset('main.js')) }}"></script>
+        <script>
+            const __CONFIG__ = {{ {
+                facebook: {
+                    app_id: parameter('facebook.app_id'),
+                    api_version: parameter('facebook.api_version'),
+                },
+                google: {
+                    maps_key: parameter('google.maps_key'),
+                },
+                some_global_relevant_parameter: parameter('some_global_relevant_parameter')
+            }|json_encode|raw }};
+
+        </script>
+        <script src="{{ preload(asset('bundles/bazingajstranslation/js/translator.min.js'), {as: 'script'}) }}"></script>
+        <script src="{{ preload(url('bazinga_jstranslation_js'), {as: 'script'}) }}"></script>
+
+        <script src="{{ preload(asset('main.js'), {as: 'script'}) }}" async defer></script>
     </body>
 </html>

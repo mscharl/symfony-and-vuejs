@@ -1,0 +1,6 @@
+frontend:
+    welcome: 'Symfony & Vue.js - Stack of the Future'
+    button: 'Turn on the future!'
+
+global_config:
+    title: 'Global Config Parameters'

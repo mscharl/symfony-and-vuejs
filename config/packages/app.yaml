@@ -1,0 +1,5 @@
+parameters:
+    facebook.app_id: '123456789'
+    facebook.api_version: '1.6'
+    google.maps_key: '878d66f98b73e26b50c1392e7ee12ad9-75faee4ddc6af5f7c6ce40f33fb8da50'
+    some_global_relevant_parameter: '%env(SOME_GLOBAL_RELEVANT_PARAMETER)%'
